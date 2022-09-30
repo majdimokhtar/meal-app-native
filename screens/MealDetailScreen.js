@@ -1,33 +1,76 @@
 import React from "react"
-import { Text, StyleSheet, View, Image } from "react-native"
+import { useLayoutEffect } from "react"
+import { Text, StyleSheet, ScrollView, Image,View ,Button} from "react-native"
+import IconBton from "../components/IconBton"
+import List from "../components/MealDetail/List"
+import Subtitle from "../components/MealDetail/Subtitle"
 import MealDetails from "../components/MealDetails"
 import { MEALS } from "../data/data"
 
-const MealDetailScreen = ({ route }) => {
+const MealDetailScreen = ({ route , navigation }) => {
   // mealId from mealItem params
   const mealId = route.params.mealId
   const selectedMeal = MEALS.find((meal) => meal.id === mealId)
+  function btnPressHandler(){
+    console.log("tapp");
+  }
+  useLayoutEffect(()=>{
+  navigation.setOptions({
+    headerRight : ()=>{
+      return <Button onPress={btnPressHandler} title="Favorite" />
+    }
+  })
+  },[navigation,btnPressHandler])
+
+
   return (
-    <View>
-      <Image source={{uri: selectedMeal.imageUrl}} />
-      <Text>{selectedMeal.title}  </Text>
+    <ScrollView style={styles.rootContainer} >
+      <Image source={{ uri: selectedMeal.imageUrl }} style={styles.image} />
+      <Text style={styles.title}>{selectedMeal.title} </Text>
       <MealDetails
-      duration={selectedMeal.duration}
-      complexity={selectedMeal.complexity}
-      affordability={selectedMeal.affordability}
+        duration={selectedMeal.duration}
+        complexity={selectedMeal.complexity}
+        affordability={selectedMeal.affordability}
+        textStyle={styles.detailTextStyle}
       />
-      <Text>Ingridients</Text>
-      {selectedMeal.ingredients.map((ingridient)=>
-      <Text key={ingridient} >{ingridient}</Text>
-      )}
-      <Text>Steps</Text>
-      {selectedMeal.steps.map((step)=>
-      <Text key={step} >{step}</Text>
-      )}
-    </View>
+
+      <View style={styles.listOuter}>
+        <View style={styles.listContainer}>
+          <Subtitle>Ingridients</Subtitle>
+
+          <List data={selectedMeal.ingredients} />
+          <Subtitle>Steps</Subtitle>
+          <List data={selectedMeal.steps} />
+        </View>
+      </View>
+    </ScrollView>
   )
 }
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  rootContainer :{
+  marginBottom :32
+  },
+  image: {
+    width: "100%",
+    height: 320,
+  },
+  title: {
+    fontWeight: "bold",
+    margin: 8,
+    textAlign: "center",
+    fontSize: 24,
+    color: "white",
+  },
+  detailTextStyle: {
+    color: "white",
+  },
+  listContainer: {
+    width: "80%",
+  },
+  listOuter: {
+    alignItems: "center",
+  },
+})
 
 export default MealDetailScreen
