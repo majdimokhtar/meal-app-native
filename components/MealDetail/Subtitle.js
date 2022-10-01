@@ -11,8 +11,7 @@ const Subtitle = ({children}) => {
 
 const styles = StyleSheet.create({
     subtitle : {
-        color :"#80ed99",
-    
+        color :"#80ed99",    
         fontWeight : "bold",
         fontSize :18,
         textAlign : "center",
