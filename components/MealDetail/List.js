@@ -19,8 +19,10 @@ const styles = StyleSheet.create({
         backgroundColor :"#80ed99"
     },
     itemText :{
-        color : "#2a9d8f",
-        textAlign : "center"
+        color : "#22577a",
+        textAlign : "center",
+        fontSize :18,
+        fontWeight :"bold"
     }
 })
 
